@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../css/common.css">
+<link rel="stylesheet" type="text/css" href="../css/reset.css">
+<style type="text/css">
+	form > span {
+		display: none;
+	}
+</style>
+</head>
+<body>
+	<h1 class="title">동적 드롭다운</h1>
+	<div class="exec">
+		<form>
+			<!-- 각 단계별 dropdown을 표시할 span태그 -->
+			<span id="category1"></span>
+			<span id="category2"></span>
+			<span id="category3"></span>
+		</form>
+	</div>
+
+	<div class="console"></div>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		//1 depth
+		$('#category1').load("../text/category-data.html #category1-1", function() {
+			$(this).show();
+		});
+		
+		//2 depth
+		$(document).on('change', '#category1 > select', function() {
+			//초기화
+			$('#category2').empty().hide();
+			$('#category3').empty().hide();
+			
+			var target = $(this).find('option:selected').attr('data-target');
+			console.log(target);
+			
+			$('#category2').load("../text/category-data.html " + target, function() {
+				$(this).show();
+			});
+		});
+		
+		//3 depth
+		$(document).on('change', '#category2 > select', function() {
+			//초기화
+			$('#category3').empty().hide();
+			
+			var target = $(this).find('option:selected').attr('data-target');
+			console.log(target);
+			
+			$('#category3').load("../text/category-data.html " + target, function() {
+				$(this).show();
+			});
+		});
+		
+		//마지막 선택
+		$(document).on('change', '#category3 > select', function() {
+			if($(this).find('option:selected').index() > 0){
+				var data1 = $('#category1 > select > option:selected').val();
+				var data2 = $('#category2 > select > option:selected').val();
+				var data3 = $(this).find('option:selected').val();
+				
+				$('.console').html(data1 + " &gt; " + data2 + " > " + data3);
+			}
+		});
+	});
+</script>
+</body>
+</html>
