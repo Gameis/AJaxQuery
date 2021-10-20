@@ -21,7 +21,8 @@
 			url: '../text/textdata.jsp',
 			type: 'get',
 			//서버로 보내는 데이터
-			data: "keyword=" + "Hello AJax!!",
+			//data: "keyword=" + "Hello AJax!!",
+			data: {'keyowrd' : 'HelloAJax!!'},
 			dataType: 'text',
 			success: function(data) {
 				$('#result').text(data);
