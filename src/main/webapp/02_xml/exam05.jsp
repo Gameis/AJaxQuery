@@ -121,7 +121,7 @@ $(function() {
 					target.remove();
 				}
 			}).fail(function() {
-				alert("시류패");
+				alert("실패");
 			});
 		}
 	});
